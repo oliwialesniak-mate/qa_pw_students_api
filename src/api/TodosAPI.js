@@ -1,5 +1,6 @@
 // helpers/api/TodosAPI.js
 import { BaseAPI } from './BaseAPI';
+import { test } from '@playwright/test';
 
 export class TodosAPI extends BaseAPI {
   constructor(request) {
@@ -7,18 +8,26 @@ export class TodosAPI extends BaseAPI {
   }
 
   async getAllTodos() {
-    return this.get('');
+    return test.step('GET all todos', async () => {
+      return this.get('');
+    });
   }
 
   async getTodosByUser(userId) {
-    return this.get(`?userId=${userId}`);
+    return test.step(`GET todos for user ${userId}`, async () => {
+      return this.get(`?userId=${userId}`);
+    });
   }
 
   async getCompletedTodos(userId) {
-    return this.get(`?userId=${userId}&completed=true`);
+    return test.step(`GET completed todos for user ${userId}`, async () => {
+      return this.get(`?userId=${userId}&completed=true`);
+    });
   }
 
   async getNotCompletedTodos(userId) {
-    return this.get(`?userId=${userId}&completed=false`);
+    return test.step(`GET not completed todos for user ${userId}`, async () => {
+      return this.get(`?userId=${userId}&completed=false`);
+    });
   }
 }
